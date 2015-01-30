@@ -107,7 +107,7 @@ public class Bird {
         //want bird to stop moving
         velocity.y = 0;
     }
-    public void declerate() {
+    public void deaccelerate() {
         //want bird to stop accelerating downwards once it is dead
         acceleration.y = 0;
     }

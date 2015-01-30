@@ -45,7 +45,7 @@ public class GameWorld {
         if (Intersector.overlaps(bird.getBoundingCircle(), ground)) {
             scroller.stop();
             bird.die();
-            bird.declerate();
+            bird.deaccelerate();
         }
     }
     public int getScore() {
