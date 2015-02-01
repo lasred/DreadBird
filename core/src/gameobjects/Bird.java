@@ -66,6 +66,11 @@ public class Bird {
         if (velocity.y > 200) {
             velocity.y = 200;
         }
+        // CEILING CHECK
+        if (position.y < -2) {
+            position.y = -2;
+            velocity.y = 0;
+        }
         /*scale is delta * vector
            Why?
            Game slows down, delta will go up (processor takes longer to complete previous iteration of the loop)
@@ -111,7 +116,16 @@ public class Bird {
         //want bird to stop accelerating downwards once it is dead
         acceleration.y = 0;
     }
+    public void onRestart(int y) {
+        rotation = 0;
+        position.y = y;
+        velocity.x = 0;
+        velocity.y = 0;
+        acceleration.x = 0;
+        acceleration.y = 460;
+        isAlive = true;
 
+    }
     public Circle getBoundingCircle() {
         return boundingCircle;
     }

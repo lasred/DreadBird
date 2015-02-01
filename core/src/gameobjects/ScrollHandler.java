@@ -68,7 +68,13 @@ public class ScrollHandler {
         }
         return (pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird));
     }
-
+    public void onRestart() {
+        frontGrass.onRestart(0, SCROLL_SPEED);
+        backGrass.onRestart(frontGrass.getTailX(), SCROLL_SPEED);
+        pipe1.onRestart(210, SCROLL_SPEED);
+        pipe2.onRestart(pipe1.getTailX() + PIPE_GAP, SCROLL_SPEED);
+        pipe3.onRestart(pipe2.getTailX() + PIPE_GAP, SCROLL_SPEED);
+    }
     public void update(float delta) {
         // Update our objects
         frontGrass.update(delta);

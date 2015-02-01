@@ -3,6 +3,7 @@ package gamehelpers;
 import com.badlogic.gdx.InputProcessor;
 
 import gameobjects.Bird;
+import gameworld.GameWorld;
 
 /**
  * Created by chris on 1/23/2015.
@@ -10,12 +11,16 @@ import gameobjects.Bird;
  * When platform(IOS, Android), receives some kind of input, it will call a method inside InputProcessor
  */
 public class InputHandler implements InputProcessor{
+    private GameWorld world;
     private Bird myBird;
     /*
     Ask reference to the bird when the InputHandler is created
+    Need a reference to GameWorld object so we can determine what the current game state
+    and handle touches correctly
      */
-    public InputHandler(Bird bird) {
-        myBird = bird;
+    public InputHandler(GameWorld world){
+        this.world = world;
+        myBird = world.getBird();
     }
     /*
     Touchdown method should call bird's onclick method. Need a refernece to our
@@ -23,10 +28,20 @@ public class InputHandler implements InputProcessor{
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        if (world.isReady()) {
+            world.start();
+        }
+
         myBird.onClick();
-        //return true to say we handled the touch event
+
+        if (world.isGameOver() ||world.isHighScore()) {
+            // Reset all variables, go to GameState.READ
+            world.restart();
+        }        //return true to say we handled the touch event
         return true;
     }
+
 
 
     @Override

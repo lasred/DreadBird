@@ -1,6 +1,7 @@
 package gamehelpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -11,6 +12,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * Created by chris on 1/23/2015.
  */
 public class AssetLoader {
+    /*
+    Preferences object maps keys to values
+     */
+    public static Preferences prefs;
+
     public static Sound dead, flap, coin;
 
     public static Texture texture;
@@ -22,8 +28,25 @@ public class AssetLoader {
     public static TextureRegion bird, birdDown, birdUp;
 
     public static TextureRegion skullUp, skullDown, bar;
+    // Receives an integer and maps it to the String highScore in prefs
+    public static void setHighScore(int val) {
+        prefs.putInteger("highScore", val);
+        //saves to the preference file
+        prefs.flush();
+    }
 
+    // Retrieves the current high score
+    public static int getHighScore() {
+        return prefs.getInteger("highScore");
+    }
     public static void load() {
+        //create/ retrieve existing preferences file
+        prefs = Gdx.app.getPreferences("ZombieBird");
+        // Provide default high score of 0
+        if (!prefs.contains("highScore")) {
+            //key to value, key - "highScore" , value - 0
+            prefs.putInteger("highScore", 0);
+        }
         //texture - image file
         texture = new Texture(Gdx.files.internal("data/texture.png"));
         //Texture.TextureFilter.Nearest - when small pixel art is stretched to a larger size, each pixel

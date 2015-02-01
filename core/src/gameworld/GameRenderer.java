@@ -147,42 +147,53 @@ public class GameRenderer {
         shapeRenderer.rect(0, midPointY + 77, 136, 52);
         shapeRenderer.end();
         batcher.begin();
-
-        // Convert integer into String
-        String score = myWorld.getScore() + "";
-        /*
-        AssetLoader.shadow - bitmap font - allows us to draw strings to the sprite batch without creating a
-        new string object each time
-         */
-       // Draw shadow first                                    12
-        AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(), (136 / 2) - (3 * score.length()), 12);
-       // Draw text
-        AssetLoader.font.draw(batcher, "" + myWorld.getScore(), (136 / 2) - (3 * score.length() - 1), 11);
-        //batcher.disableBlending();
-        batcher.draw(bg, 0, midPointY + 23, 136, 43);
-
         // 1. Draw Grass
         drawGrass();
 
         // 2. Draw Pipes
         drawPipes();
         drawSkulls();
-
-       if (bird.shouldntFlap()) {
-
+        if (bird.shouldntFlap()) {
           batcher.draw(birdMid, bird.getX(), bird.getY(),
-              //where to rotate, position about x and y
-              bird.getWidth() / 2.0f, bird.getHeight() / 2.0f,
-                  bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
+             //where to rotate, position about x and y
+              bird.getWidth() / 2.0f, bird.getHeight() / 2.0f, bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
         } else {
-            batcher.draw(birdAnimation.getKeyFrame(runTime), bird.getX(),
-                    bird.getY(), bird.getWidth() / 2.0f ,
-                    bird.getHeight() / 2.0f, bird.getWidth(), bird.getHeight(),
-                    1, 1, bird.getRotation());
-     }
-
-
+            batcher.draw(birdAnimation.getKeyFrame(runTime), bird.getX(), bird.getY(), bird.getWidth() / 2.0f ,
+           bird.getHeight() / 2.0f, bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
+        }
+        if (myWorld.isReady()) {
+            // Draw shadow first
+            AssetLoader.shadow.draw(batcher, "Touch me", (136 / 2)  - (42), 76);
+            // Draw text
+            AssetLoader.font.draw(batcher, "Touch me", (136 / 2)- (42 - 1), 75);
+        } else {
+            if (myWorld.isGameOver() || myWorld.isHighScore()) {
+                if (myWorld.isGameOver()) {
+                    AssetLoader.shadow.draw(batcher, "Game Over", 25, 56);
+                    AssetLoader.font.draw(batcher, "Game Over", 24, 55);
+                    AssetLoader.shadow.draw(batcher, "High Score:", 23, 106);
+                    AssetLoader.font.draw(batcher, "High Score:", 22, 105);
+                    String highScore = AssetLoader.getHighScore() + "";
+                    // Draw shadow first
+                    AssetLoader.shadow.draw(batcher, highScore, (136 / 2)     - (3 * highScore.length()), 128);
+                    // Draw text
+                    AssetLoader.font.draw(batcher, highScore, (136 / 2) - (3 * highScore.length() - 1), 127);
+                } else {
+                    AssetLoader.shadow.draw(batcher, "High Score!", 19, 56);
+                    AssetLoader.font.draw(batcher, "High Score!", 18, 55);
+                }
+                AssetLoader.shadow.draw(batcher, "Try again?", 23, 76);
+                AssetLoader.font.draw(batcher, "Try again?", 24, 75);
+            }
+            // Convert integer into String
+            String score = myWorld.getScore() + "";
+            // Draw shadow first
+            AssetLoader.shadow.draw(batcher, score, (136 / 2) - (3 * score.length()), 12);
+            // Draw text
+            AssetLoader.font.draw(batcher, score,  (136 / 2) - (3 * score.length() - 1), 11);
+        }
         batcher.end();
+
 //        shapeRenderer.begin(ShapeType.Filled);
 //        shapeRenderer.setColor(Color.RED);
 //        shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
@@ -191,7 +202,7 @@ public class GameRenderer {
          * Excuse the mess below. Temporary code for testing bounding
          * rectangles.
          */
-        // Bar up for pipes 1 2 and 3
+            // Bar up for pipes 1 2 and 3
 //        shapeRenderer.rect(pipe1.getBarUp().x, pipe1.getBarUp().y,
 //                pipe1.getBarUp().width, pipe1.getBarUp().height);
 //        shapeRenderer.rect(pipe2.getBarUp().x, pipe2.getBarUp().y,
@@ -199,7 +210,7 @@ public class GameRenderer {
 //        shapeRenderer.rect(pipe3.getBarUp().x, pipe3.getBarUp().y,
 //                pipe3.getBarUp().width, pipe3.getBarUp().height);
 
-        // Bar down for pipes 1 2 and 3
+            // Bar down for pipes 1 2 and 3
 //        shapeRenderer.rect(pipe1.getBarDown().x, pipe1.getBarDown().y,
 //                pipe1.getBarDown().width, pipe1.getBarDown().height);
 //        shapeRenderer.rect(pipe2.getBarDown().x, pipe2.getBarDown().y,
@@ -207,7 +218,7 @@ public class GameRenderer {
 //        shapeRenderer.rect(pipe3.getBarDown().x, pipe3.getBarDown().y,
 //                pipe3.getBarDown().width, pipe3.getBarDown().height);
 
-        // Skull up for Pipes 1 2 and 3
+            // Skull up for Pipes 1 2 and 3
 //        shapeRenderer.rect(pipe1.getSkullUp().x, pipe1.getSkullUp().y,
 //                pipe1.getSkullUp().width, pipe1.getSkullUp().height);
 //        shapeRenderer.rect(pipe2.getSkullUp().x, pipe2.getSkullUp().y,
@@ -215,7 +226,7 @@ public class GameRenderer {
 //        shapeRenderer.rect(pipe3.getSkullUp().x, pipe3.getSkullUp().y,
 //                pipe3.getSkullUp().width, pipe3.getSkullUp().height);
 
-        // Skull down for Pipes 1 2 and 3
+            // Skull down for Pipes 1 2 and 3
 //        shapeRenderer.rect(pipe1.getSkullDown().x, pipe1.getSkullDown().y,
 //                pipe1.getSkullDown().width, pipe1.getSkullDown().height);
 //        shapeRenderer.rect(pipe2.getSkullDown().x, pipe2.getSkullDown().y,
@@ -225,6 +236,6 @@ public class GameRenderer {
 //        shapeRenderer.end();
 
 
-    }
+        }
 
 }

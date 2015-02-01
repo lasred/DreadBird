@@ -87,7 +87,10 @@ public class Pipe extends Scrollable {
     public Rectangle getSkullUp() {
         return skullUp;
     }
-
+    public void onRestart(float x, float scrollSpeed) {
+        velocity.x = scrollSpeed;
+        reset(x);
+    }
     public boolean isScored() {
         return isScored;
     }
